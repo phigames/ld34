@@ -4,9 +4,9 @@ class BacteriaGroup {
 
   List<Bacterium> bacteria;
   num x, y;
-  num radius = 50;
+  num radius = 5;
   num targetX, targetY;
-  num targetPhi, targetCounter = 0, step =0.5;
+  num targetPhi, targetCounter = 0, step = 0.5;
 
   BacteriaGroup(num x, num y) {
     this.x = x;
@@ -16,12 +16,13 @@ class BacteriaGroup {
 
   void initializeBacteria() {
     bacteria = new List<Bacterium>();
-    for (int i = 0; i < 1; i++) {
+    bacteria.add(new Bacterium(0, 0));
+    /*for (int i = 0; i < 1; i++) {
       radius = 5;
       num phi = random.nextDouble()*2*PI;
       num distance = random.nextInt(radius+1);
       bacteria.add(new Bacterium(cos(phi)*distance, sin(phi)*distance));
-    }
+    }*/
   }
 
   void update() {
@@ -34,9 +35,7 @@ class BacteriaGroup {
       if (dX < 0){
         targetPhi += PI;
       }
-      print(targetPhi);
       targetCounter = sqrt(dX*dX+dY*dY)/step;
-
     }
     if (targetCounter > 0) {
       targetCounter --;
@@ -45,6 +44,10 @@ class BacteriaGroup {
     }
     for (int i = 0; i < bacteria.length; i++) {
       bacteria[i].update();
+      if (bacteria[i].dead) {
+        bacteria.removeAt(i);
+        i--;
+      }
     }
   }
 

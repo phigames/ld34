@@ -17,8 +17,8 @@ class GamestateMenu extends Gamestate {
       start = true;
     }
     if (start) {
-      red -= 0.015;
-      if (red <= 0) {
+      red *= 0.92;
+      if (red < 0.007) {
         gamestate = new GamestatePlaying();
       }
     }
@@ -26,10 +26,10 @@ class GamestateMenu extends Gamestate {
 
   void draw() {
     bufferContext.fillStyle = '#F00';
-    //bufferContext.fillRect(width / 2 * (1 - red), height / 2 * - width / 2 * (red), width * red, width * red);
+    bufferContext.fillRect(width / 2 * (1 - red), (height - width * red) / 2, width * red, width * red);
     bufferContext.font = '30px "Open Sans"';
     bufferContext.fillStyle = '#FFF';
-    bufferContext.fillText('click to start', 315, 230);
+    bufferContext.fillText('click to start', 313, 233);
   }
 
 }
