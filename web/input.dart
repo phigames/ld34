@@ -15,7 +15,7 @@ class Input {
   static void onMouseDown(MouseEvent event) {
     if (event.button == 0) {
       leftMouse = true;
-    } else if (event.button = 2) {
+    } else if (event.button == 2) {
       rightMouse = true;
     }
   }
@@ -23,7 +23,7 @@ class Input {
   static void onMouseUp(MouseEvent event) {
     if (event.button == 0) {
       leftMouse = false;
-    } else if (event.button = 2) {
+    } else if (event.button == 2) {
       rightMouse = false;
     }
   }
