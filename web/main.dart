@@ -9,6 +9,7 @@ part 'bacterium.dart';
 part 'nutrient.dart';
 part 'input.dart';
 part 'resources.dart';
+part 'bacteriaGroup.dart';
 
 CanvasElement canvas;
 CanvasRenderingContext2D canvasContext;

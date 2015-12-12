@@ -3,6 +3,8 @@ part of ld34;
 class Bacterium {
 
   num x, y;
+  num nutrition;
+  bool dead = false;
 
   Bacterium(x, y) {
     this.x = x;
@@ -16,7 +18,7 @@ class Bacterium {
 
   void draw() {
     canvasContext.fillStyle = '#F00';
-    canvasContext.fillRect(x, y, 4, 4);
+    canvasContext.fillRect(x, y, 6, 6);
   }
 
 }
