@@ -31,6 +31,7 @@ void main() {
   Input.init();
   canvas.onMouseDown.listen(Input.onMouseDown);
   canvas.onMouseUp.listen(Input.onMouseUp);
+  canvas.onMouseMove.listen(Input.onMouseMove);
   Resources.init();
   Resources.load();
   gamestate = new GamestateMenu();
