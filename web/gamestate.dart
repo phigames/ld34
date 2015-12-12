@@ -2,19 +2,21 @@ part of ld34;
 
 abstract class Gamestate {
 
-  void update(num delta);
+  void update();
   void draw();
 
 }
 
 class GamestatePlaying extends Gamestate {
 
+  World world;
+
   GamestatePlaying() {
-    World world = new World();
+    world = new World();
   }
 
-  void update(num delta) {
-    world.update(delta);
+  void update() {
+    world.update();
   }
 
   void draw() {

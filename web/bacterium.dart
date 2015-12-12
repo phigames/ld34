@@ -9,7 +9,7 @@ class Bacterium {
     this.y = y;
   }
 
-  void update(num delta) {
+  void update() {
     x += (random.nextInt(3) - 1) / 10;
     y += (random.nextInt(3) - 1) / 10;
   }
