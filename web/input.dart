@@ -2,17 +2,17 @@ part of ld34;
 
 class Input {
 
-  bool leftMouse, rightMouse;
-  int mouseX, mouseY;
+  static bool leftMouse, rightMouse;
+  static int mouseX, mouseY;
 
-  void init() {
+  static void init() {
     leftMouse = false;
     rightMouse = false;
     mouseX = 0;
     mouseY = 0;
   }
 
-  void onMouseDown(MouseEvent event) {
+  static void onMouseDown(MouseEvent event) {
     if (event.button == 0) {
       leftMouse = true;
     } else if (event.button = 2) {
@@ -20,7 +20,7 @@ class Input {
     }
   }
 
-  void onMouseUp(MouseEvent event) {
+  static void onMouseUp(MouseEvent event) {
     if (event.button == 0) {
       leftMouse = false;
     } else if (event.button = 2) {
@@ -28,7 +28,7 @@ class Input {
     }
   }
 
-  void onMouseMove(MouseEvent event) {
+  static void onMouseMove(MouseEvent event) {
     mouseX = event.layer.x;
     mouseY = event.layer.y;
   }

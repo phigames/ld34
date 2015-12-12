@@ -21,8 +21,10 @@ void main() {
   random = new Random();
   canvas = querySelector('#canvas');
   canvasContext = canvas.context2D;
-  requestFrame();
+  Input.init();
+  Resources.init();
   gamestate = new GamestatePlaying();
+  requestFrame();
 }
 
 void frame(num time) {
