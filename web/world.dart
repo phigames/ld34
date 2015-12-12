@@ -9,11 +9,11 @@ class World {
   }
 
   void update() {
-    bacteriaGroup.update;
+    bacteriaGroup.update();
   }
 
   void draw() {
-    bacteriaGroup.draw;
+    bacteriaGroup.draw();
   }
 
 }

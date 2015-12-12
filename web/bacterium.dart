@@ -17,8 +17,8 @@ class Bacterium {
   }
 
   void draw(num xTest, num yTest) {
-    canvasContext.fillStyle = '#F00';
-    canvasContext.fillRect(this.x+xTest,this.y+yTest, 6, 6);
+    bufferContext.fillStyle = '#F00';
+    bufferContext.fillRect(x+xTest,y+yTest, 6, 6);
   }
 
 }
