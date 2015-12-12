@@ -2,10 +2,10 @@ part of ld34;
 
 class World {
 
-  BacteriaGroup bacteriaGroup = new BacteriaGroup(400,250);
+  BacteriaGroup bacteriaGroup;
 
   World() {
-
+    bacteriaGroup = new BacteriaGroup(400,225);
   }
 
   void update() {

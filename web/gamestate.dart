@@ -36,8 +36,6 @@ class GamestateMenu extends Gamestate {
 
 class GamestatePlaying extends Gamestate {
 
-  World world;
-
   GamestatePlaying() {
     world = new World();
   }
