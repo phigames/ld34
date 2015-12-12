@@ -6,7 +6,7 @@ class Bacterium {
   num nutrition;
   bool dead = false;
 
-  Bacterium(x, y) {
+  Bacterium(num x, num y) {
     this.x = x;
     this.y = y;
   }
@@ -16,9 +16,9 @@ class Bacterium {
     y += (random.nextInt(3) - 1) / 10;
   }
 
-  void draw() {
+  void draw(num xTest, num yTest) {
     canvasContext.fillStyle = '#F00';
-    canvasContext.fillRect(x, y, 6, 6);
+    canvasContext.fillRect(this.x+xTest,this.y+yTest, 6, 6);
   }
 
 }

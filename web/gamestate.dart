@@ -9,8 +9,6 @@ abstract class Gamestate {
 
 class GamestatePlaying extends Gamestate {
 
-  World world;
-
   GamestatePlaying() {
     world = new World();
   }
@@ -27,7 +25,7 @@ class GamestatePlaying extends Gamestate {
 
 class GamestateEnded extends Gamestate {
 
-  void update(num delta) {
+  void update() {
 
   }
 
