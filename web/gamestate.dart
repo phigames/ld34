@@ -9,17 +9,21 @@ abstract class Gamestate {
 
 class GamestateMenu extends Gamestate {
 
+  bool loaded = false;
   bool start = false;
   num red = 1;
 
   void update() {
-    if (!start && Input.leftMouse) {
-      start = true;
-    }
-    if (start) {
-      red *= 0.92;
-      if (red < 0.007) {
-        gamestate = new GamestatePlaying();
+    if (Resources.imagesLoaded >= Resources.images.values.length || Resources.soundsLoaded >= Resources.sounds.values.length) {
+      loaded = true;
+      if (!start && Input.leftMouse) {
+        start = true;
+      }
+      if (start) {
+        red *= 0.92;
+        if (red < 0.007) {
+          gamestate = new GamestatePlaying();
+        }
       }
     }
   }
@@ -29,7 +33,11 @@ class GamestateMenu extends Gamestate {
     bufferContext.fillRect(width / 2 * (1 - red), (height - width * red) / 2, width * red, width * red);
     bufferContext.font = '30px "Open Sans"';
     bufferContext.fillStyle = '#FFF';
-    bufferContext.fillText('click to start', 313, 233);
+    if (loaded) {
+      bufferContext.fillText('click to start', 313, 233);
+    } else {
+      bufferContext.fillText('loading...', 338, 233);
+    }
   }
 
 }
