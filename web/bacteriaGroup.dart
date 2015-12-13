@@ -18,7 +18,7 @@ class BacteriaGroup {
   void initializeBacteria() {
     bacteria = new List<Bacterium>();
     bacteria.add(new BacteriumHealthy(0, 0));
-    /*for (int i = 0; i < 100; i++) {
+    /*for (int i = 0; i < 400; i++) {
       num phi = random.nextDouble()*2*PI;
       num distance = random.nextInt(radius+1);
       bacteria.add(new BacteriumHealthy(cos(phi)*distance, sin(phi)*distance));
@@ -62,10 +62,10 @@ class BacteriaGroup {
     for (int i = 0; i < bacteria.length; i++) {
       bacteria[i].draw(xCam, yCam, x, y);
     }
-    bufferContext.strokeStyle = '#000';
+    /*bufferContext.strokeStyle = '#000';
     bufferContext.beginPath();
     bufferContext.arc(x - xCam, y - yCam, radius, 0, 2 * PI);
-    bufferContext.stroke();
+    bufferContext.stroke();*/
   }
 
 }

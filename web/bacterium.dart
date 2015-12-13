@@ -30,6 +30,7 @@ class BacteriumHealthy extends Bacterium {
   BacteriumHealthy(num x, num y) : super(x, y) {
     nutrition = 10;
     color = '#1D9F12';
+    color = ranHexColor(0x1D, 0x9F, 0x12);
   }
 
   Bacterium clone(bool mutate) {

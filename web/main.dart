@@ -62,6 +62,9 @@ void requestFrame() {
 String ranHexColor(int r, int g, int b) {
   double ran = random.nextDouble()*0.3+0.85;
   int hexR = (ran * r).round(), hexG = (ran * g).round(), hexB = (ran * b).round();
+  hexR = min(hexR, 0xFF);
+  hexG = min(hexG, 0xFF);
+  hexB = min(hexB, 0xFF);
   int number = (hexR*0x100+hexG)*0x100+hexB;
   return '#'+ number.toRadixString(16);
 }

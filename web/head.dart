@@ -4,7 +4,7 @@ class Head {
   ImageElement image;
   num width = 100, height = 150;
   num x, y;
-  num xSpeed = 1, ySpeed = 2;
+  num xSpeed = 1, ySpeed = 0.5;
   int infection = 0;
   bool dead = false;
 
