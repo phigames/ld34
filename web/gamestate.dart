@@ -2,8 +2,20 @@ part of ld34;
 
 abstract class Gamestate {
 
+  bool tutorial = false;
+  List<String> tutorialMessage;
+  num tutorialX, tutorialY;
+
   void update();
+
   void draw();
+
+  void showTutorialMessage(String message, num x, num y) {
+    tutorial = true;
+    tutorialMessage = message.split('|');
+    tutorialX = x;
+    tutorialY = y;
+  }
 
 }
 
@@ -49,11 +61,33 @@ class GamestatePlaying extends Gamestate {
   }
 
   void update() {
-    world.update();
+    if (!tutorial) {
+      world.update();
+    } else if (Input.leftMouse) {
+      tutorial = false;
+    }
   }
 
   void draw() {
     world.draw();
+    if (tutorial) {
+      bufferContext.fillStyle = '#BBB';
+      bufferContext.strokeStyle = '#000';
+      bufferContext.lineWidth = 2;
+      bufferContext.beginPath();
+      bufferContext.moveTo(tutorialX, tutorialY);
+      bufferContext.lineTo(tutorialX + 200, tutorialY);
+      bufferContext.lineTo(tutorialX + 150, tutorialY + tutorialMessage.length * 20 + 20);
+      bufferContext.lineTo(tutorialX, tutorialY + tutorialMessage.length * 20 + 20);
+      bufferContext.closePath();
+      bufferContext.fill();
+      bufferContext.stroke();
+      bufferContext.font = '16px "Open Sans"';
+      bufferContext.fillStyle = '#000';
+      for (int i = 0; i < tutorialMessage.length; i++) {
+        bufferContext.fillText(tutorialMessage[i], tutorialX + 10, tutorialY + i * 20 + 25);
+      }
+    }
   }
 
 }
