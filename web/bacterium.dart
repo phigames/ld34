@@ -15,7 +15,9 @@ abstract class Bacterium {
 
   void draw(num xCam, num yCam, num groupX, num groupY) {
     bufferContext.fillStyle = color;
-    bufferContext.fillRect(x + groupX - 3 - xCam, y + groupY - 3 - yCam, 6, 6);
+    bufferContext.fillRect(x + groupX - 3 - xCam, y + groupY - 3 - yCam, 6 * nutrition / 10, 6 * nutrition / 10);
+    //bufferContext.font = 'bold 10px "Open Sans"';
+    //bufferContext.fillText(nutrition.round().toString(), x + groupX - 3 - xCam, y + groupY - 3 - yCam);
   }
 
 }
@@ -47,7 +49,7 @@ class BacteriumHealthy extends Bacterium {
       x = temporaryX;
       y = temporaryY;
     }
-    nutrition -= 0.01;
+    nutrition -= 0.0001;
   }
 
 }

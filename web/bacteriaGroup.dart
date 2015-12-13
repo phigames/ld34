@@ -7,7 +7,7 @@ class BacteriaGroup {
   num radius = 50;
   num targetX, targetY;
   num targetPhi, targetCounter = 0, step = 0.5;
-  num pMitosis = 0.01, nutritionMitosis = 5;
+  num pMitosis = 0.01, nutritionMitosis = 10;
 
   BacteriaGroup(num x, num y) {
     this.x = x;

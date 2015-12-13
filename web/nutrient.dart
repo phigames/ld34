@@ -8,6 +8,7 @@ abstract class Nutrient {
   num maxValue;
   num value;
   String color;
+  num pEat = 0.2;
   bool dead = false;
   num animationTime = 0;
 
@@ -18,16 +19,22 @@ abstract class Nutrient {
   void update(BacteriaGroup bacteriaGroup) {
     num groupX = bacteriaGroup.x;
     num groupY = bacteriaGroup.y;
-    for (int i = 0; i < bacteriaGroup.bacteria.length; i++) {
-      num bacteriumX = groupX + bacteriaGroup.bacteria[i].x;
-      num bacteriumY = groupY + bacteriaGroup.bacteria[i].y;
-      num dX = bacteriumX - x;
-      num dY = bacteriumY - y;
-      if (dX * dX + dY * dY <= radius * radius) {
-        value -= 1;
-        bacteriaGroup.bacteria[i].nutrition += 1;
-        if (value < 0) {
-          dead = true;
+    num groupDX = groupX - x;
+    num groupDY = groupY - y;
+    num radiusSum = bacteriaGroup.radius + radius;
+    if (groupDX * groupDX + groupDY * groupDY <= radiusSum * radiusSum) {
+      for (int i = 0; i < bacteriaGroup.bacteria.length; i++) {
+        num bacteriumX = groupX + bacteriaGroup.bacteria[i].x;
+        num bacteriumY = groupY + bacteriaGroup.bacteria[i].y;
+        num dX = bacteriumX - x;
+        num dY = bacteriumY - y;
+        if (dX * dX + dY * dY <= radius * radius &&
+            random.nextDouble() < pEat) {
+          value -= 1;
+          bacteriaGroup.bacteria[i].nutrition += 1;
+          if (value < 0) {
+            dead = true;
+          }
         }
       }
     }
