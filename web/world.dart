@@ -5,18 +5,34 @@ class World {
   BacteriaGroup bacteriaGroup;
   List<Nutrient> nutrients;
   List<Antibiotic> antibiotics;
+  num widthWorld = width*3, heightWorld = height*3;
+  num widthCamera = width, heightCamera = height, xCamera, yCamera;
+  num xOrigin, yOrigin;
 
   World() {
+    xCamera = widthWorld/2-widthCamera/2;
+    yCamera = heightWorld/2-heightCamera/2;
     bacteriaGroup = new BacteriaGroup(400,225);
     nutrients = new List<Nutrient>();
-    nutrients.add(new Crumb(100, 100));
-    nutrients.add(new Crumb(500, 300));
+    nutrients.add(new Crumb(900, 550));
+    nutrients.add(new Crumb(1400, 750));
     antibiotics = new List<Antibiotic>();
-    antibiotics.add(new Antibiotic(200, 300));
-    antibiotics.add(new Antibiotic(400, 100));
+    antibiotics.add(new Antibiotic(1000, 750));
+    antibiotics.add(new Antibiotic(1200, 550));
   }
 
   void update() {
+    if (Input.rightMouse) {
+      if (xOrigin == null) {
+        xOrigin = Input.mouseX;
+        yOrigin = Input.mouseY;
+      } else {
+        xCamera += xOrigin - Input.mouseX;
+        yCamera += yOrigin - Input.mouseY;
+        xOrigin = Input.mouseX;
+        yOrigin = Input.mouseY;
+      }
+    }
     bacteriaGroup.update();
     for (int i = 0; i < nutrients.length; i++) {
       nutrients[i].update(bacteriaGroup);
@@ -35,9 +51,11 @@ class World {
   }
 
   void draw() {
+
+
     bacteriaGroup.draw();
     for (int i = 0; i < nutrients.length; i++) {
-      nutrients[i].draw();
+      nutrients[i].draw(xCamera, yCamera);
     }
     for (int i = 0; i < antibiotics.length; i++) {
       antibiotics[i].draw();

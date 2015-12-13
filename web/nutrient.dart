@@ -28,11 +28,11 @@ abstract class Nutrient {
     }
   }
 
-  void draw() {
+  void draw(num xCam,num yCam) {
     bufferContext.beginPath();
-    bufferContext.moveTo(x + points[0].x, y + points[0].y);
+    bufferContext.moveTo(x + points[0].x - xCam, y + points[0].y - yCam);
     for (int i = 1; i < points.length; i++) {
-      bufferContext.lineTo(x + points[i].x, y + points[i].y);
+      bufferContext.lineTo(x + points[i].x - xCam, y + points[i].y - yCam);
     }
     bufferContext.closePath();
     bufferContext.fillStyle = color;
