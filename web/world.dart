@@ -10,7 +10,7 @@ class World {
   num xOrigin, yOrigin;
   num pNutrientSpawn = 0.003;
   num pAntibioticSpawn = 0.001;
-  Head head;
+  List<Head> heads;
 
   World() {
     xCamera = widthWorld/2-widthCamera/2;
@@ -24,6 +24,8 @@ class World {
     antibiotics = new List<Antibiotic>();
     /*antibiotics.add(new Antibiotic(1000, 750));
     antibiotics.add(new Antibiotic(1200, 550));*/
+    heads = new List<Head>();
+    heads.add(new Head(Resources.images['cage'], 100,100));
   }
 
   spawnNutrient() {
@@ -95,7 +97,9 @@ class World {
     if (random.nextDouble() < pAntibioticSpawn) {
       spawnAntibiotic();
     }
-
+    for (int i = 0; i < heads.length; i++) {
+      heads[i].update();
+    }
   }
 
   void draw() {
@@ -106,8 +110,9 @@ class World {
     for (int i = 0; i < antibiotics.length; i++) {
       antibiotics[i].draw(xCamera, yCamera);
     }
-    head = new Head(Resources.images['cage'], 100, 100);
-    head.draw();
+    for (int i = 0; i < heads.length; i++) {
+      heads[i].draw(xCamera, yCamera);
+    }
   }
 
 }

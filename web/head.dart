@@ -2,7 +2,7 @@ part of ld34;
 
 class Head {
   ImageElement image;
-  num width, height;
+  num width = 100, height = 150;
   num x, y;
 
   Head(this.image, this.x, this.y) {
@@ -10,12 +10,11 @@ class Head {
   }
 
   void update() {
-    x += 1;
-    y += 1;
+    x += 0.5;
   }
 
-  void draw() {
-    bufferContext.drawImage(image, x, y);
+  void draw(num xCam, num yCam) {
+    bufferContext.drawImage(image, xCam + x+width/2, yCam + y+height/2);
   }
 
 }
