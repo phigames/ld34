@@ -57,3 +57,10 @@ void frame(num time) {
 void requestFrame() {
   window.animationFrame.then(frame);
 }
+
+String ranHexColor(int r, int g, int b) {
+  double ran = random.nextDouble()*0.3+0.85;
+  int hexR = (ran * r).round(), hexG = (ran * g).round(), hexB = (ran * b).round();
+  int number = (hexR*0x100+hexG)*0x100+hexB;
+  return '#'+ number.toRadixString(16);
+}

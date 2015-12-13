@@ -12,6 +12,9 @@ class Resources {
 
   static void load() {
     sounds['test'] = new AudioElement('res/test.wav');
+    images['cage'] = new ImageElement(src: 'res/cage.png');
+    images['trump'] = new ImageElement(src: 'res/trump.png');
+    images['labeouf'] = new ImageElement(src: 'res/labeouf.png');
   }
 
 }
