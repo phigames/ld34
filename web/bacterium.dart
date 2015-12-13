@@ -5,6 +5,7 @@ class Bacterium {
   num x, y;
   num nutrition = 10;
   bool dead = false;
+  num temporaryX, temporaryY;
 
   Bacterium(num x, num y) {
     this.x = x;
@@ -17,9 +18,13 @@ class Bacterium {
     return new Bacterium(x, y)..nutrition = nutrition;
   }
 
-  void update() {
-    x += (random.nextInt(3) - 1) / 10;
-    y += (random.nextInt(3) - 1) / 10;
+  void update(num radius) {
+    temporaryX = x+(random.nextInt(3) - 1) / 10;
+    temporaryY = y+(random.nextInt(3) - 1) / 10;
+    if (temporaryX*temporaryX+temporaryY*temporaryY < radius * radius) {
+      x += (random.nextInt(3) - 1) / 10;
+      y += (random.nextInt(3) - 1) / 10;
+    }
     nutrition -= 0.01;
   }
 
