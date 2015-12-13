@@ -33,10 +33,11 @@ class Antibiotic {
     animationTime += 0.02;
   }
 
-  void draw() {
+  void draw(num xCam, num yCam) {
     bufferContext.save();
-    bufferContext.translate(x, y);
-    bufferContext.rotate(sin(animationTime * 5) / 6);
+    bufferContext.translate(x - xCam, y - yCam);
+    //bufferContext.rotate(sin(animationTime * 5) / 6);
+    bufferContext.rotate(animationTime / 3);
     bufferContext.scale(1 + sin(animationTime * 7) / 20, 1 + sin(animationTime * 7) / 20);
     bufferContext.beginPath();
     bufferContext.moveTo(0, -10);

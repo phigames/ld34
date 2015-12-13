@@ -7,6 +7,7 @@ class BacteriaGroup {
   num radius = 5;
   num targetX, targetY;
   num targetPhi, targetCounter = 0, step = 0.5;
+  num pMitosis = 0.01, nutritionMitosis = 5;
 
   BacteriaGroup(num x, num y) {
     this.x = x;
@@ -47,13 +48,17 @@ class BacteriaGroup {
       if (bacteria[i].dead) {
         bacteria.removeAt(i);
         i--;
+      } else if (bacteria[i].nutrition >= nutritionMitosis) {
+        if (random.nextDouble() < pMitosis) {
+          Bacterium clone = bacteria[i].clone();
+        }
       }
     }
   }
 
-  void draw() {
+  void draw(num xCam, num yCam) {
     for (int i = 0; i < bacteria.length; i++) {
-      bacteria[i].draw(x, y);
+      bacteria[i].draw(xCam, yCam, x, y);
     }
   }
 
