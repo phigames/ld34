@@ -7,7 +7,7 @@ class BacteriaGroup {
   num radius = 50;
   num targetX, targetY;
   num targetPhi, targetCounter = 0, step = 0.5;
-  num pMitosis = 0.01, nutritionMitosis = 10;
+  num pMitosis = 0.003, nutritionMitosis = 10;
 
   BacteriaGroup(num x, num y) {
     this.x = x;
@@ -43,22 +43,29 @@ class BacteriaGroup {
       y += sin(targetPhi)*step;
     }
     for (int i = 0; i < bacteria.length; i++) {
-      bacteria[i].update(radius);
+      bacteria[i].update(this);
+    }
+    for (int i = 0; i < bacteria.length; i++) {
       if (bacteria[i].dead) {
         bacteria.removeAt(i);
         i--;
       } else if (bacteria[i].nutrition >= nutritionMitosis) {
         if (random.nextDouble() < pMitosis) {
-          bacteria.add(bacteria[i].clone());
+          bacteria.add(bacteria[i].clone(bacteria.length > 10));
         }
       }
     }
+    radius = sqrt(bacteria.length) * 4;
   }
 
   void draw(num xCam, num yCam) {
     for (int i = 0; i < bacteria.length; i++) {
       bacteria[i].draw(xCam, yCam, x, y);
     }
+    bufferContext.strokeStyle = '#000';
+    bufferContext.beginPath();
+    bufferContext.arc(x - xCam, y - yCam, radius, 0, 2 * PI);
+    bufferContext.stroke();
   }
 
 }

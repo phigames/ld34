@@ -7,6 +7,7 @@ class Antibiotic {
   num maxValue;
   num value;
   bool dead = false;
+  num spawnTime = 0;
   num animationTime = 0;
 
   Antibiotic(this.x, this.y) {
@@ -35,6 +36,12 @@ class Antibiotic {
         }
       }
     }
+    if (spawnTime < 1) {
+      spawnTime += 0.08;
+      if (spawnTime > 1) {
+        spawnTime = 1;
+      }
+    }
     animationTime += 0.02;
   }
 
@@ -43,6 +50,9 @@ class Antibiotic {
     bufferContext.translate(x - xCam, y - yCam);
     //bufferContext.rotate(sin(animationTime * 5) / 6);
     bufferContext.rotate(animationTime / 3);
+    if (spawnTime < 1) {
+      bufferContext.scale(spawnTime, spawnTime);
+    }
     bufferContext.scale(1 + sin(animationTime * 7) / 20, 1 + sin(animationTime * 7) / 20);
     bufferContext.scale(value / maxValue, value / maxValue);
     bufferContext.beginPath();
