@@ -92,7 +92,21 @@ class GamestatePlaying extends Gamestate {
 
 }
 
-class GamestateEnding extends Gamestate {
+class GamestateLosing extends Gamestate {
+
+  void update() {
+
+  }
+
+  void draw() {
+    bufferContext.fillStyle = '#BBB';
+    bufferContext.font = '16px "Open Sans"';
+    bufferContext.fillText("You've lost", 400, 225);
+  }
+
+}
+
+class GamestateWinning extends Gamestate {
 
   void update() {
 
