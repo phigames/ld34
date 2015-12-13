@@ -101,7 +101,9 @@ class World {
     } else if (counter > 200 && !cage.dead) {
       cage.update(bacteriaGroup);
     }
-
+    if (bacteriaGroup.bacteria.length <= 0) {
+      gamestate = new GamestateLosing();
+    }
     counter++;
   }
 
