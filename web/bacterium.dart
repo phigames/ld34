@@ -1,36 +1,77 @@
 part of ld34;
 
-class Bacterium {
+abstract class Bacterium {
 
   num x, y;
   num nutrition = 10;
   bool dead = false;
-  num temporaryX, temporaryY;
+  String color;
 
-  Bacterium(num x, num y) {
-    this.x = x;
-    this.y = y;
+  Bacterium(this.x, this.y);
+
+  Bacterium clone();
+
+  void update(num radius);
+
+  void draw(num xCam, num yCam, num groupX, num groupY) {
+    bufferContext.fillStyle = color;
+    bufferContext.fillRect(x + groupX - 3 - xCam, y + groupY - 3 - yCam, 6, 6);
+  }
+
+}
+
+class BacteriumHealthy extends Bacterium {
+
+  num pMutation = 0.1;
+
+  BacteriumHealthy(num x, num y) : super(x, y) {
+    nutrition = 10;
+    color = '#1D9F12';
   }
 
   Bacterium clone() {
-    Bacterium result = new Bacterium(x, y);
     nutrition /= 2;
-    return new Bacterium(x, y)..nutrition = nutrition;
+    if (random.nextDouble() < pMutation) {
+      return new BacteriumMutant(x, y)
+        ..nutrition = nutrition;
+    } else {
+      return new BacteriumHealthy(x, y)
+        ..nutrition = nutrition;
+    }
   }
 
   void update(num radius) {
-    temporaryX = x+(random.nextInt(3) - 1) / 10;
-    temporaryY = y+(random.nextInt(3) - 1) / 10;
+    num temporaryX = x+(random.nextInt(3) - 1) / 1;
+    num temporaryY = y+(random.nextInt(3) - 1) / 1;
     if (temporaryX*temporaryX+temporaryY*temporaryY < radius * radius) {
-      x += (random.nextInt(3) - 1) / 10;
-      y += (random.nextInt(3) - 1) / 10;
+      x = temporaryX;
+      y = temporaryY;
     }
     nutrition -= 0.01;
   }
 
-  void draw(num xCam, num yCam, num groupX, num groupY) {
-    bufferContext.fillStyle = '#F00';
-    bufferContext.fillRect(x + groupX - 3 - xCam, y + groupY - 3 - yCam, 6, 6);
+}
+
+class BacteriumMutant extends Bacterium {
+
+  BacteriumMutant(num x, num y) : super(x, y) {
+    nutrition = 10;
+    color = '#13D1CB';
+  }
+
+  Bacterium clone() {
+    nutrition /= 2;
+    return new BacteriumMutant(x, y)..nutrition = nutrition;
+  }
+
+  void update(num radius) {
+    num temporaryX = x+(random.nextInt(3) - 1) / 1;
+    num temporaryY = y+(random.nextInt(3) - 1) / 1;
+    if (temporaryX*temporaryX+temporaryY*temporaryY < radius * radius) {
+      x = temporaryX;
+      y = temporaryY;
+    }
+    nutrition -= 0.01;
   }
 
 }

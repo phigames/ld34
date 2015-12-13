@@ -25,7 +25,7 @@ class GamestateMenu extends Gamestate {
   }
 
   void draw() {
-    bufferContext.fillStyle = '#F00';
+    bufferContext.fillStyle = '#1D9F12';
     bufferContext.fillRect(width / 2 * (1 - red), (height - width * red) / 2, width * red, width * red);
     bufferContext.font = '30px "Open Sans"';
     bufferContext.fillStyle = '#FFF';

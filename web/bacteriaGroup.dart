@@ -4,7 +4,7 @@ class BacteriaGroup {
 
   List<Bacterium> bacteria;
   num x, y;
-  num radius = 5;
+  num radius = 50;
   num targetX, targetY;
   num targetPhi, targetCounter = 0, step = 0.5;
   num pMitosis = 0.01, nutritionMitosis = 5;
@@ -17,12 +17,11 @@ class BacteriaGroup {
 
   void initializeBacteria() {
     bacteria = new List<Bacterium>();
-    bacteria.add(new Bacterium(0, 0));
-    /*for (int i = 0; i < 1; i++) {
-      radius = 5;
+    bacteria.add(new BacteriumHealthy(0, 0));
+    /*for (int i = 0; i < 100; i++) {
       num phi = random.nextDouble()*2*PI;
       num distance = random.nextInt(radius+1);
-      bacteria.add(new Bacterium(cos(phi)*distance, sin(phi)*distance));
+      bacteria.add(new BacteriumHealthy(cos(phi)*distance, sin(phi)*distance));
     }*/
   }
 
@@ -50,7 +49,7 @@ class BacteriaGroup {
         i--;
       } else if (bacteria[i].nutrition >= nutritionMitosis) {
         if (random.nextDouble() < pMitosis) {
-          Bacterium clone = bacteria[i].clone();
+          bacteria.add(bacteria[i].clone());
         }
       }
     }

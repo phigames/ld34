@@ -5,10 +5,15 @@ abstract class Nutrient {
   num x, y;
   num radius;
   List<Point<num>> points;
+  num maxValue;
   num value;
   String color;
   bool dead = false;
   num animationTime = 0;
+
+  Nutrient(this.x, this.y, this.maxValue) {
+    value = maxValue;
+  }
 
   void update(BacteriaGroup bacteriaGroup) {
     num groupX = bacteriaGroup.x;
@@ -35,6 +40,7 @@ abstract class Nutrient {
     //bufferContext.rotate(sin(animationTime * 5) / 6);
     bufferContext.rotate(animationTime / 3);
     bufferContext.scale(1 + sin(animationTime * 7) / 20, 1 + sin(animationTime * 7) / 20);
+    bufferContext.scale(value / maxValue, value / maxValue);
     bufferContext.beginPath();
     bufferContext.moveTo(points[0].x, points[0].y);
     for (int i = 1; i < points.length; i++) {
@@ -50,9 +56,7 @@ abstract class Nutrient {
 
 class Crumb extends Nutrient {
 
-  Crumb(num x, num y) {
-    this.x = x;
-    this.y = y;
+  Crumb(num x, num y) : super(x, y, 50) {
     radius = 20;
     points = new List<Point<num>>();
     for (int i = 0; i < 7; i++) {
@@ -60,7 +64,6 @@ class Crumb extends Nutrient {
       num randomRadius = (random.nextDouble() + 1 / 2) * radius;
       points.add(new Point(cos(angle) * randomRadius, sin(angle) * randomRadius));
     }
-    value = 50;
     color = '#99642B';
   }
 

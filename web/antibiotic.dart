@@ -4,13 +4,14 @@ class Antibiotic {
 
   num x, y;
   num radius;
+  num maxValue;
   num value;
   bool dead = false;
   num animationTime = 0;
 
   Antibiotic(this.x, this.y) {
     radius = 20;
-    value = 10;
+    value = maxValue = 10;
   }
 
   void update(BacteriaGroup bacteriaGroup) {
@@ -38,6 +39,7 @@ class Antibiotic {
     //bufferContext.rotate(sin(animationTime * 5) / 6);
     bufferContext.rotate(animationTime / 3);
     bufferContext.scale(1 + sin(animationTime * 7) / 20, 1 + sin(animationTime * 7) / 20);
+    bufferContext.scale(value / maxValue, value / maxValue);
     bufferContext.beginPath();
     bufferContext.moveTo(0, -10);
     bufferContext.lineTo(-20, -10);
