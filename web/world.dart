@@ -12,7 +12,7 @@ class World {
   World() {
     xCamera = widthWorld/2-widthCamera/2;
     yCamera = heightWorld/2-heightCamera/2;
-    bacteriaGroup = new BacteriaGroup(400,225);
+    bacteriaGroup = new BacteriaGroup(widthWorld / 2, heightWorld / 2);
     nutrients = new List<Nutrient>();
     nutrients.add(new Crumb(900, 550));
     nutrients.add(new Crumb(1400, 750));
@@ -23,17 +23,19 @@ class World {
 
   void update() {
     if (Input.rightMouse) {
-      if (xOrigin == null) {
-        xOrigin = Input.mouseX;
-        yOrigin = Input.mouseY;
-      } else {
+      if (xOrigin != null) {
         xCamera += xOrigin - Input.mouseX;
         yCamera += yOrigin - Input.mouseY;
-        xOrigin = Input.mouseX;
-        yOrigin = Input.mouseY;
+      }
+      xOrigin = Input.mouseX;
+      yOrigin = Input.mouseY;
+    } else {
+      if (xOrigin != null) {
+        xOrigin = null;
+        yOrigin = null;
       }
     }
-    bacteriaGroup.update();
+    bacteriaGroup.update(xCamera, yCamera);
     for (int i = 0; i < nutrients.length; i++) {
       nutrients[i].update(bacteriaGroup);
       if (nutrients[i].dead) {
@@ -51,14 +53,12 @@ class World {
   }
 
   void draw() {
-
-
-    bacteriaGroup.draw();
+    bacteriaGroup.draw(xCamera, yCamera);
     for (int i = 0; i < nutrients.length; i++) {
       nutrients[i].draw(xCamera, yCamera);
     }
     for (int i = 0; i < antibiotics.length; i++) {
-      antibiotics[i].draw();
+      antibiotics[i].draw(xCamera, yCamera);
     }
   }
 

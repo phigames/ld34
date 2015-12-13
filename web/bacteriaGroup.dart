@@ -26,10 +26,10 @@ class BacteriaGroup {
     }*/
   }
 
-  void update() {
+  void update(num xCam, num yCam) {
     if (Input.leftMouse) {
-      targetX = Input.mouseX;
-      targetY = Input.mouseY;
+      targetX = Input.mouseX + xCam;
+      targetY = Input.mouseY + yCam;
       num dX = targetX -x;
       num dY = targetY -y;
       targetPhi = atan((dY)/(dX));
