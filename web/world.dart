@@ -98,8 +98,8 @@ class World {
     }
     if (counter == 200) {
       cage = new Head(Resources.images['cage'], xCamera, yCamera);
-    } else if (counter > 200) {
-      cage.update();
+    } else if (counter > 200 && !cage.dead) {
+      cage.update(bacteriaGroup);
     }
 
     counter++;
@@ -113,7 +113,7 @@ class World {
     for (int i = 0; i < antibiotics.length; i++) {
       antibiotics[i].draw(xCamera, yCamera);
     }
-    if (counter > 200) {
+    if (counter > 200 && !cage.dead) {
       cage.draw(xCamera, yCamera);
     }
   }
