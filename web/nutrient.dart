@@ -8,6 +8,7 @@ abstract class Nutrient {
   num value;
   String color;
   bool dead = false;
+  num animationTime = 0;
 
   void update(BacteriaGroup bacteriaGroup) {
     num groupX = bacteriaGroup.x;
@@ -15,7 +16,6 @@ abstract class Nutrient {
     for (int i = 0; i < bacteriaGroup.bacteria.length; i++) {
       num bacteriumX = groupX + bacteriaGroup.bacteria[i].x;
       num bacteriumY = groupY + bacteriaGroup.bacteria[i].y;
-      // bacteria group get coord?
       num dX = bacteriumX - x;
       num dY = bacteriumY - y;
       if (dX * dX + dY * dY <= radius * radius) {
@@ -26,17 +26,24 @@ abstract class Nutrient {
         }
       }
     }
+    animationTime += 0.02;
   }
 
   void draw(num xCam,num yCam) {
+    bufferContext.save();
+    bufferContext.translate(x - xCam, y - yCam);
+    //bufferContext.rotate(sin(animationTime * 5) / 6);
+    bufferContext.rotate(animationTime / 3);
+    bufferContext.scale(1 + sin(animationTime * 7) / 20, 1 + sin(animationTime * 7) / 20);
     bufferContext.beginPath();
-    bufferContext.moveTo(x + points[0].x - xCam, y + points[0].y - yCam);
+    bufferContext.moveTo(points[0].x, points[0].y);
     for (int i = 1; i < points.length; i++) {
-      bufferContext.lineTo(x + points[i].x - xCam, y + points[i].y - yCam);
+      bufferContext.lineTo(points[i].x, points[i].y);
     }
     bufferContext.closePath();
     bufferContext.fillStyle = color;
     bufferContext.fill();
+    bufferContext.restore();
   }
 
 }
@@ -50,11 +57,11 @@ class Crumb extends Nutrient {
     points = new List<Point<num>>();
     for (int i = 0; i < 7; i++) {
       num angle = i / 7 * 2 * PI;
-      num randomRadius = (random.nextDouble() / 2 + 3 / 4) * radius;
+      num randomRadius = (random.nextDouble() + 1 / 2) * radius;
       points.add(new Point(cos(angle) * randomRadius, sin(angle) * randomRadius));
     }
     value = 50;
-    color = '#DF3A01';
+    color = '#99642B';
   }
 
 }

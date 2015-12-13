@@ -19,7 +19,6 @@ class Antibiotic {
     for (int i = 0; i < bacteriaGroup.bacteria.length; i++) {
       num bacteriumX = groupX + bacteriaGroup.bacteria[i].x;
       num bacteriumY = groupY + bacteriaGroup.bacteria[i].y;
-      // bacteria group get coord?
       num dX = bacteriumX - x;
       num dY = bacteriumY - y;
       if (dX * dX + dY * dY <= radius * radius) {

@@ -50,7 +50,7 @@ class GamestatePlaying extends Gamestate {
 
 }
 
-class GamestateEnded extends Gamestate {
+class GamestateEnding extends Gamestate {
 
   void update() {
 
