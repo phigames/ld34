@@ -26,6 +26,15 @@ class World {
       if (xOrigin != null) {
         xCamera += xOrigin - Input.mouseX;
         yCamera += yOrigin - Input.mouseY;
+        if (xCamera < 0) {
+          xCamera = 0;
+        } else if (xCamera > widthWorld) {
+          xCamera = widthWorld;
+        } else if (yCamera < 0) {
+          yCamera = 0;
+        } else if (yCamera > heightWorld) {
+          yCamera = heightWorld;
+        }
       }
       xOrigin = Input.mouseX;
       yOrigin = Input.mouseY;
