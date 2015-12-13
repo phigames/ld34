@@ -10,6 +10,7 @@ class World {
   num xOrigin, yOrigin;
   num pNutrientSpawn = 0.003;
   num pAntibioticSpawn = 0.001;
+  Head head;
 
   World() {
     xCamera = widthWorld/2-widthCamera/2;
@@ -94,6 +95,7 @@ class World {
     if (random.nextDouble() < pAntibioticSpawn) {
       spawnAntibiotic();
     }
+
   }
 
   void draw() {
@@ -104,6 +106,8 @@ class World {
     for (int i = 0; i < antibiotics.length; i++) {
       antibiotics[i].draw(xCamera, yCamera);
     }
+    head = new Head(Resources.images['cage'], 100, 100);
+    head.draw();
   }
 
 }

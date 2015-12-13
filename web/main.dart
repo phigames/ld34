@@ -11,6 +11,7 @@ part 'nutrient.dart';
 part 'antibiotic.dart';
 part 'input.dart';
 part 'resources.dart';
+part 'head.dart';
 
 CanvasElement canvas, buffer;
 CanvasRenderingContext2D canvasContext, bufferContext;
