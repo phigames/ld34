@@ -28,12 +28,13 @@ class World {
         yCamera += yOrigin - Input.mouseY;
         if (xCamera < 0) {
           xCamera = 0;
-        } else if (xCamera > widthWorld) {
-          xCamera = widthWorld;
-        } else if (yCamera < 0) {
+        } else if (xCamera + widthCamera > widthWorld) {
+          xCamera = widthWorld - widthCamera;
+        }
+        if (yCamera < 0) {
           yCamera = 0;
-        } else if (yCamera > heightWorld) {
-          yCamera = heightWorld;
+        } else if (yCamera + heightCamera > heightWorld) {
+          yCamera = heightWorld - heightCamera;
         }
       }
       xOrigin = Input.mouseX;
