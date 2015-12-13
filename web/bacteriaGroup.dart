@@ -44,7 +44,7 @@ class BacteriaGroup {
       y += sin(targetPhi)*step;
     }
     for (int i = 0; i < bacteria.length; i++) {
-      bacteria[i].update();
+      bacteria[i].update(radius);
       if (bacteria[i].dead) {
         bacteria.removeAt(i);
         i--;
