@@ -94,14 +94,23 @@ class GamestatePlaying extends Gamestate {
 
 class GamestateLosing extends Gamestate {
 
-  void update() {
+  num x = 133;
+  num y = 20;
 
+  void update() {
+    y++;
   }
 
   void draw() {
-    bufferContext.fillStyle = '#BBB';
-    bufferContext.font = '16px "Open Sans"';
+    bufferContext.fillStyle = '#000000';
+    bufferContext.font = '64px "Open Sans"';
     bufferContext.fillText("You've lost", 400, 225);
+    bufferContext.drawImage(Resources.images['cage'], x, y);
+    bufferContext.drawImage(Resources.images['labeouf'], x+233, y);
+    bufferContext.drawImage(Resources.images['trump'], x+466, y);
+    if (y > 20) {
+      y = 0;
+    }
   }
 
 }
