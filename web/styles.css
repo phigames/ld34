@@ -33,7 +33,13 @@ h2 {
 }
 
 #footer {
-    font-size: small;
+    padding-bottom: 6px;
+    font-size: 10px;
     font-weight: bold;
     color: #555;
+}
+
+a {
+    color: #222;
+    text-decoration: none;
 }
