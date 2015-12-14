@@ -6,7 +6,7 @@ class BacteriaGroup {
   num x, y;
   num radius = 50;
   num targetX, targetY;
-  num targetPhi, targetCounter = 0, step = 0.5;
+  num targetPhi, targetCounter = 0, step = 0.8;
   num pMitosis = 0.003, nutritionMitosis = 10;
 
   BacteriaGroup(num x, num y) {
@@ -38,7 +38,7 @@ class BacteriaGroup {
       targetCounter = sqrt(dX*dX+dY*dY)/step;
     }
     if (targetCounter > 0) {
-      targetCounter --;
+      targetCounter--;
       x += cos(targetPhi)*step;
       y += sin(targetPhi)*step;
     }
@@ -51,7 +51,7 @@ class BacteriaGroup {
         i--;
       } else if (bacteria[i].nutrition >= nutritionMitosis) {
         if (random.nextDouble() < pMitosis) {
-          bacteria.add(bacteria[i].clone(bacteria.length > 10));
+          bacteria.add(bacteria[i].clone(bacteria.length > 10, x - xCam, y - yCam));
         }
       }
     }

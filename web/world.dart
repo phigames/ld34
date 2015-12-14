@@ -8,20 +8,22 @@ class World {
   num widthWorld = width*3, heightWorld = height*3;
   num widthCamera = width, heightCamera = height, xCamera, yCamera;
   num xOrigin, yOrigin;
-  num pNutrientSpawn = 0.005;
-  num pAntibioticSpawn = 0.002;
+  num pNutrientSpawn = 0;
+  num pAntibioticSpawn = 0;
   num counter = 0;
   Head cage;
   Head labeouf;
   Head trump;
-  int cageTime = 1000;
-  int labeoufTime = 2000;
-  int trumpTime = 3000;
-  int tutBacterium = 50;
-  int spwNutrient = 250;
-  int tutNutrient = 300;
-  int spwAntibiotic = 750;
-  int tutAntibiotic = 800;
+  int cageTime = 10000;
+  int labeoufTime = 20000;
+  int trumpTime = 30000;
+  int tutBacterium = 100;
+  int spwNutrient = 350;
+  int tutNutrient = 400;
+  int spwAntibiotic = 850;
+  int tutAntibiotic = 900;
+  int tutMap = 1400;
+  int tutHead = -1;
 
   World() {
     xCamera = widthWorld/2-widthCamera/2;
@@ -29,9 +31,9 @@ class World {
     bacteriaGroup = new BacteriaGroup(widthWorld / 2, heightWorld / 2);
     nutrients = new List<Nutrient>();
     antibiotics = new List<Antibiotic>();
-    cage = new Head(Resources.images['cage'], xCamera, yCamera);
-    labeouf = new Head(Resources.images['labeouf'], xCamera, yCamera);
-    trump = new Head(Resources.images['trump'], xCamera, yCamera);
+    cage = new Head(Resources.images['cage']);
+    labeouf = new Head(Resources.images['labeouf']);
+    trump = new Head(Resources.images['trump']);
   }
 
   spawnNutrient() {
@@ -103,13 +105,19 @@ class World {
     if (random.nextDouble() < pAntibioticSpawn) {
       spawnAntibiotic();
     }
-    if (counter > cageTime && !cage.dead) {
+    if (counter >= cageTime && !cage.dead) {
+      if (counter == cageTime) {
+        print('cage');
+        cage.x = xCamera + widthCamera - 200;
+        cage.y = yCamera + 100;
+        tutHead = 50;
+      }
       cage.update(bacteriaGroup);
     }
-    if (counter > labeoufTime && !labeouf.dead) {
+    if (counter >= labeoufTime && !labeouf.dead) {
       labeouf.update(bacteriaGroup);
     }
-    if (counter > trumpTime && !trump.dead) {
+    if (counter >= trumpTime && !trump.dead) {
       trump.update(bacteriaGroup);
     }
     if (bacteriaGroup.bacteria.length <= 0) {
@@ -129,6 +137,7 @@ class World {
       if (spwNutrient == 0) {
         nutrients.add(new Crumb(1400, 750));
       }
+      pNutrientSpawn = 0.015;
     }
     if (tutNutrient > 0) {
       tutNutrient--;
@@ -141,11 +150,25 @@ class World {
       if (spwAntibiotic == 0) {
         antibiotics.add(new Antibiotic(1100, 600));
       }
+      pNutrientSpawn = 0.005;
     }
     if (tutAntibiotic > 0) {
       tutAntibiotic--;
       if (tutAntibiotic == 0) {
-        gamestate.showTutorialMessage('This is an antibiotic.|Don\'t touch it unless|you want to kill|your bacteria...', 900 - xCamera, 500 - yCamera);
+        gamestate.showTutorialMessage('This is an antibiotic.|Don\'t touch it unless|you want to kill|your bacteria...', 1100 - xCamera, 600 - yCamera);
+      }
+    }
+    if (tutMap > 0) {
+      tutMap--;
+      if (tutMap == 0) {
+        gamestate.showTutorialMessage('You can move the map|around by dragging|with your right|mouse button.', 600, 50);
+      }
+    }
+    if (tutHead > 0) {
+      print('head');
+      tutHead--;
+      if (tutHead == 0) {
+        gamestate.showTutorialMessage('What?! Who\'s this?|This guy doesn\'t|belong here!|Infect him!', cage.x - xCamera - 20, cage.y - yCamera + 30);
       }
     }
   }

@@ -7,10 +7,9 @@ class Head {
   num xSpeed = 1, ySpeed = 0.5;
   int infection = 0;
   bool dead = false;
+  num spawnTime = 0;
 
-  Head(this.image, this.x, this.y) {
-
-  }
+  Head(this.image, [this.x = 0, this.y = 0]);
 
   void update(BacteriaGroup bacteriaGroup) {
     x += xSpeed;
@@ -35,21 +34,33 @@ class Head {
         if (dX * dX + dY * dY <= width * width / 4) {
           bacteriaGroup.bacteria[i].dead = true;
           infection++;
-          if (infection >= 100) {
+          if (infection >= 20) {
             dead = true;
           }
         }
       }
     }
+    if (spawnTime < 1) {
+      spawnTime += 0.08;
+      if (spawnTime > 1) {
+        spawnTime = 1;
+      }
+    }
   }
 
   void draw(num xCam, num yCam) {
-    bufferContext.drawImage(image, x - xCam - width/2, y - yCam - height/2);
+    bufferContext.save();
+    bufferContext.translate(x - xCam, y - yCam);
+    if (spawnTime < 1) {
+      bufferContext.scale(spawnTime, spawnTime);
+    }
+    bufferContext.drawImage(image, -width / 2, -height / 2);
     bufferContext.fillStyle = '#F00';
     bufferContext.font = '20px "Open Sans"';
-    bufferContext.fillText(infection.toString() + '%', x - xCam - 20, y - yCam - height / 2);
+    bufferContext.fillText((infection * 5).toString() + '%', -20, -height / 2);
     bufferContext.font = '15px "Open Sans"';
-    bufferContext.fillText('infected', x - xCam - 30, y - yCam - height / 2 + 10);
+    bufferContext.fillText('infected', -30, -height / 2 + 10);
+    bufferContext.restore();
   }
 
 }

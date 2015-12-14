@@ -9,9 +9,9 @@ abstract class Bacterium {
 
   Bacterium(this.x, this.y);
 
-  Bacterium clone(bool mutate);
+  Bacterium clone(bool mutate, num offsetX, num offsetY);
 
-  void update(num radius);
+  void update(BacteriaGroup group);
 
   void draw(num xCam, num yCam, num groupX, num groupY) {
     num size = sqrt(nutrition / 10 * 36);
@@ -25,6 +25,7 @@ abstract class Bacterium {
 
 class BacteriumHealthy extends Bacterium {
 
+  static bool firstMutation = true;
   num pMutation = 0.02;
 
   BacteriumHealthy(num x, num y) : super(x, y) {
@@ -33,12 +34,15 @@ class BacteriumHealthy extends Bacterium {
     color = ranHexColor(0x1D, 0x9F, 0x12);
   }
 
-  Bacterium clone(bool mutate) {
+  Bacterium clone(bool mutate, num offsetX, num offsetY) {
     nutrition /= 2;
     if (mutate && random.nextDouble() < pMutation) {
-      print('mutant');
-      return new BacteriumMutant(x, y)
-        ..nutrition = nutrition;
+      BacteriumMutant mutant = new BacteriumMutant(x, y).. nutrition = nutrition;
+      if (firstMutation) {
+        gamestate.showTutorialMessage('One of your bacteria|just mutated!|Kill the mutant before|it kills you!', mutant.x + offsetX, mutant.y + offsetY);
+        firstMutation = false;
+      }
+      return mutant;
     } else {
       return new BacteriumHealthy(x, y)
         ..nutrition = nutrition;
@@ -52,7 +56,7 @@ class BacteriumHealthy extends Bacterium {
       x = temporaryX;
       y = temporaryY;
     }
-    nutrition -= 0.0001;
+    //nutrition -= 0.0001;
     if (nutrition <= 0) {
       dead = true;
     }
@@ -67,7 +71,7 @@ class BacteriumMutant extends Bacterium {
     color = '#13D1CB';
   }
 
-  Bacterium clone(bool mutate) {
+  Bacterium clone(bool mutate, num offsetX, num offsetY) {
     nutrition /= 2;
     return new BacteriumMutant(x, y)..nutrition = nutrition;
   }
