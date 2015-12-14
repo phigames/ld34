@@ -11,7 +11,7 @@ abstract class Bacterium {
 
   Bacterium clone(bool mutate, World world);
 
-  void update(BacteriaGroup group, World world);
+  void update(BacteriaGroup group);
 
   void draw(num xCam, num yCam, num groupX, num groupY) {
     num size = sqrt(nutrition / 10 * 36);
