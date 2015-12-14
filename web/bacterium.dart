@@ -9,7 +9,7 @@ abstract class Bacterium {
 
   Bacterium(this.x, this.y);
 
-  Bacterium clone(bool mutate, num offsetX, num offsetY);
+  Bacterium clone(bool mutate, World world);
 
   void update(BacteriaGroup group, World world);
 
