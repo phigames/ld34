@@ -30,6 +30,16 @@ class Antibiotic {
         if (dX * dX + dY * dY <= radius * radius) {
           value -= 1;
           bacteriaGroup.bacteria[i].dead = true;
+          bool allDead = true;
+          for (int j = 0; j < bacteriaGroup.bacteria.length; j++) {
+            if (!bacteriaGroup.bacteria[j].dead) {
+              allDead = false;
+              break;
+            }
+          }
+          if (allDead) {
+            gamestate = new GamestateLosingAntibiotic();
+          }
           if (value < 0) {
             dead = true;
           }

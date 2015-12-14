@@ -14,15 +14,15 @@ class World {
   Head cage;
   Head labeouf;
   Head trump;
-  int cageTime = 10000;
-  int labeoufTime = 20000;
-  int trumpTime = 30000;
+  int cageTime = 8000;
+  int labeoufTime = 10000;
+  int trumpTime = 12000;
   int tutBacterium = 100;
   int spwNutrient = 350;
   int tutNutrient = 400;
   int spwAntibiotic = 850;
   int tutAntibiotic = 900;
-  int tutMap = 1400;
+  int tutMap = 1200;
   int tutHead = -1;
 
   World() {
@@ -31,9 +31,9 @@ class World {
     bacteriaGroup = new BacteriaGroup(widthWorld / 2, heightWorld / 2);
     nutrients = new List<Nutrient>();
     antibiotics = new List<Antibiotic>();
-    cage = new Head(Resources.images['cage']);
-    labeouf = new Head(Resources.images['labeouf']);
-    trump = new Head(Resources.images['trump']);
+    cage = new Head(Resources.images['cage'], 'Nicholas Cage');
+    labeouf = new Head(Resources.images['labeouf'], 'Shia LaBeouf');
+    trump = new Head(Resources.images['trump'], 'Donald Trump');
   }
 
   spawnNutrient() {
@@ -84,7 +84,7 @@ class World {
         yOrigin = null;
       }
     }
-    bacteriaGroup.update(xCamera, yCamera);
+    bacteriaGroup.update(this);
     for (int i = 0; i < nutrients.length; i++) {
       nutrients[i].update(bacteriaGroup);
       if (nutrients[i].dead) {
@@ -107,9 +107,13 @@ class World {
     }
     if (counter >= cageTime && !cage.dead) {
       if (counter == cageTime) {
-        print('cage');
-        cage.x = xCamera + widthCamera - 200;
-        cage.y = yCamera + 100;
+        num dX, dY;
+        do {
+          cage.x = random.nextDouble() * (widthCamera - 200) + xCamera + 50;
+          cage.y = random.nextDouble() * (heightCamera - 150) + yCamera + 50;
+          dX = cage.x - bacteriaGroup.x;
+          dY = cage.y - bacteriaGroup.y;
+        } while (dX * dX + dY * dY < 10000);
         tutHead = 50;
       }
       cage.update(bacteriaGroup);
@@ -120,9 +124,7 @@ class World {
     if (counter >= trumpTime && !trump.dead) {
       trump.update(bacteriaGroup);
     }
-    if (bacteriaGroup.bacteria.length <= 0) {
-      gamestate = new GamestateLosing();
-    } else if (cage.dead && labeouf.dead && trump.dead) {
+    if (cage.dead && labeouf.dead && trump.dead) {
       gamestate = new GamestateWinning();
     }
     counter++;
@@ -136,8 +138,8 @@ class World {
       spwNutrient--;
       if (spwNutrient == 0) {
         nutrients.add(new Crumb(1400, 750));
+        pNutrientSpawn = 0.01;
       }
-      pNutrientSpawn = 0.015;
     }
     if (tutNutrient > 0) {
       tutNutrient--;
@@ -149,8 +151,8 @@ class World {
       spwAntibiotic--;
       if (spwAntibiotic == 0) {
         antibiotics.add(new Antibiotic(1100, 600));
+        pAntibioticSpawn = 0.005;
       }
-      pNutrientSpawn = 0.005;
     }
     if (tutAntibiotic > 0) {
       tutAntibiotic--;
@@ -165,10 +167,9 @@ class World {
       }
     }
     if (tutHead > 0) {
-      print('head');
       tutHead--;
       if (tutHead == 0) {
-        gamestate.showTutorialMessage('What?! Who\'s this?|This guy doesn\'t|belong here!|Infect him!', cage.x - xCamera - 20, cage.y - yCamera + 30);
+        gamestate.showTutorialMessage('What?! Who\'s this?|This guy doesn\'t|belong here!|Infect him!|(But don\'t use up|all your bacteria)', cage.x - xCamera, cage.y - yCamera);
       }
     }
   }

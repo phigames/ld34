@@ -11,7 +11,7 @@ abstract class Bacterium {
 
   Bacterium clone(bool mutate, num offsetX, num offsetY);
 
-  void update(BacteriaGroup group);
+  void update(BacteriaGroup group, World world);
 
   void draw(num xCam, num yCam, num groupX, num groupY) {
     num size = sqrt(nutrition / 10 * 36);
@@ -30,18 +30,29 @@ class BacteriumHealthy extends Bacterium {
 
   BacteriumHealthy(num x, num y) : super(x, y) {
     nutrition = 10;
-    color = '#1D9F12';
     color = ranHexColor(0x1D, 0x9F, 0x12);
   }
 
-  Bacterium clone(bool mutate, num offsetX, num offsetY) {
+  Bacterium clone(bool mutate, World world) {
     nutrition /= 2;
     if (mutate && random.nextDouble() < pMutation) {
       BacteriumMutant mutant = new BacteriumMutant(x, y).. nutrition = nutrition;
       if (firstMutation) {
-        gamestate.showTutorialMessage('One of your bacteria|just mutated!|Kill the mutant before|it kills you!', mutant.x + offsetX, mutant.y + offsetY);
+        if (world.bacteriaGroup.x + mutant.x < world.xCamera) {
+          world.xCamera = world.bacteriaGroup.x + mutant.x - 50;
+        } else if (world.bacteriaGroup.x + mutant.x > world.xCamera + world.widthCamera) {
+          world.xCamera = world.bacteriaGroup.x + mutant.x - world.widthCamera + 50;
+        }
+        if (world.bacteriaGroup.y + mutant.y < world.yCamera) {
+          world.yCamera = world.bacteriaGroup.y + mutant.y - 50;
+        } else if (world.bacteriaGroup.y + mutant.y > world.yCamera + world.heightCamera) {
+          world.yCamera = world.bacteriaGroup.y + mutant.y - world.heightCamera + 50;
+        }
+        gamestate.showTutorialMessage('One of your|bacteria just|mutated!|Kill the mutant|before it kills you!|(Use antibiotics)', mutant.x + world.bacteriaGroup.x - world.xCamera, mutant.y  + world.bacteriaGroup.y - world.yCamera);
         firstMutation = false;
       }
+      Resources.sounds['mutant'].currentTime = 0;
+      Resources.sounds['mutant'].play();
       return mutant;
     } else {
       return new BacteriumHealthy(x, y)
@@ -66,12 +77,14 @@ class BacteriumHealthy extends Bacterium {
 
 class BacteriumMutant extends Bacterium {
 
+  num pEat = 0.05;
+
   BacteriumMutant(num x, num y) : super(x, y) {
     nutrition = 10;
-    color = '#13D1CB';
+    color = ranHexColor(0xF7, 0x78, 0x4F);
   }
 
-  Bacterium clone(bool mutate, num offsetX, num offsetY) {
+  Bacterium clone(bool mutate, World world) {
     nutrition /= 2;
     return new BacteriumMutant(x, y)..nutrition = nutrition;
   }
@@ -87,7 +100,7 @@ class BacteriumMutant extends Bacterium {
       if (group.bacteria[i] != this && !dead && !group.bacteria[i].dead) {
         num dX = group.bacteria[i].x - x;
         num dY = group.bacteria[i].y - y;
-        if (dX * dX + dY * dY <= nutrition / 10 * 3) {
+        if (dX * dX + dY * dY <= 4 && random.nextDouble() < pEat) {
           nutrition += group.bacteria[i].nutrition;
           group.bacteria[i].nutrition = 0;
           group.bacteria[i].dead = true;

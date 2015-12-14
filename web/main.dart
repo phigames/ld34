@@ -20,6 +20,8 @@ Random random;
 Gamestate gamestate;
 World world;
 num lastUpdate = -1;
+num startTime;
+num currentTime;
 
 void main() {
   random = new Random();
@@ -42,11 +44,13 @@ void main() {
 void frame(num time) {
   if (lastUpdate == -1) {
     lastUpdate = time;
+    startTime = time;
   } else {
     while (time - lastUpdate >= 20) {
       gamestate.update();
       lastUpdate += 20;
     }
+    currentTime = time;
     bufferContext.clearRect(0, 0, width, height);
     gamestate.draw();
     canvasContext.clearRect(0, 0, width, height);

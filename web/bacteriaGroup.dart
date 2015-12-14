@@ -7,7 +7,7 @@ class BacteriaGroup {
   num radius = 50;
   num targetX, targetY;
   num targetPhi, targetCounter = 0, step = 0.8;
-  num pMitosis = 0.003, nutritionMitosis = 10;
+  num pMitosis = 0.003, nutritionMitosis = 12;
 
   BacteriaGroup(num x, num y) {
     this.x = x;
@@ -25,10 +25,10 @@ class BacteriaGroup {
     }*/
   }
 
-  void update(num xCam, num yCam) {
+  void update(World world) {
     if (Input.leftMouse) {
-      targetX = Input.mouseX + xCam;
-      targetY = Input.mouseY + yCam;
+      targetX = Input.mouseX + world.xCamera;
+      targetY = Input.mouseY + world.yCamera;
       num dX = targetX -x;
       num dY = targetY -y;
       targetPhi = atan((dY)/(dX));
@@ -49,13 +49,24 @@ class BacteriaGroup {
       if (bacteria[i].dead) {
         bacteria.removeAt(i);
         i--;
+        if (bacteria.length == 1 && bacteria[0] is BacteriumMutant) {
+          gamestate = new GamestateLosingMutant();
+        }
       } else if (bacteria[i].nutrition >= nutritionMitosis) {
         if (random.nextDouble() < pMitosis) {
-          bacteria.add(bacteria[i].clone(bacteria.length > 10, x - xCam, y - yCam));
+          bacteria.add(bacteria[i].clone(bacteria.length > 20, world));
+          print(bacteria.length);
         }
       }
     }
-    radius = sqrt(bacteria.length) * 4;
+    num newRadius = sqrt(bacteria.length) * 4;
+    if (newRadius < radius) {
+      for (int i = 0; i < bacteria.length; i++) {
+        bacteria[i].x *= newRadius / radius;
+        bacteria[i].y *= newRadius / radius;
+      }
+    }
+    radius = newRadius;
   }
 
   void draw(num xCam, num yCam) {

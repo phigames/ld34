@@ -2,6 +2,7 @@ part of ld34;
 
 class Head {
   ImageElement image;
+  String name;
   num width = 100, height = 150;
   num x, y;
   num xSpeed = 1, ySpeed = 0.5;
@@ -9,7 +10,7 @@ class Head {
   bool dead = false;
   num spawnTime = 0;
 
-  Head(this.image, [this.x = 0, this.y = 0]);
+  Head(this.image, this.name, [this.x = 0, this.y = 0]);
 
   void update(BacteriaGroup bacteriaGroup) {
     x += xSpeed;
@@ -33,9 +34,21 @@ class Head {
         num dY = bacteriumY - y;
         if (dX * dX + dY * dY <= width * width / 4) {
           bacteriaGroup.bacteria[i].dead = true;
+          bool allDead = true;
+          for (int j = 0; j < bacteriaGroup.bacteria.length; j++) {
+            if (!bacteriaGroup.bacteria[j].dead) {
+              allDead = false;
+              break;
+            }
+          }
+          if (allDead) {
+            gamestate = new GamestateLosing(name);
+          }
           infection++;
-          if (infection >= 20) {
+          if (infection >= 50) {
             dead = true;
+            Resources.sounds['kill'].currentTime = 0;
+            Resources.sounds['kill'].play();
           }
         }
       }
@@ -57,7 +70,7 @@ class Head {
     bufferContext.drawImage(image, -width / 2, -height / 2);
     bufferContext.fillStyle = '#F00';
     bufferContext.font = '20px "Open Sans"';
-    bufferContext.fillText((infection * 5).toString() + '%', -20, -height / 2);
+    bufferContext.fillText((infection * 2).toString() + '%', -20, -height / 2);
     bufferContext.font = '15px "Open Sans"';
     bufferContext.fillText('infected', -30, -height / 2 + 10);
     bufferContext.restore();

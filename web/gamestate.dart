@@ -16,7 +16,6 @@ abstract class Gamestate {
     tutorialMessage = message.split('|');
     tutorialX = x;
     tutorialY = y;
-    print(message);
   }
 
 }
@@ -60,6 +59,8 @@ class GamestatePlaying extends Gamestate {
 
   GamestatePlaying() {
     world = new World();
+    Resources.sounds['song'].loop = true;
+    Resources.sounds['song'].play();
   }
 
   void update() {
@@ -155,35 +156,104 @@ class GamestatePlaying extends Gamestate {
 
 class GamestateLosing extends Gamestate {
 
-  num x = 133;
-  num y = 20;
+  num time = 0;
+  String name;
+  String message;
+
+  GamestateLosing(this.name) {
+    message = 'You used up all your bacteria on ' + name;
+    Resources.sounds['lose'].currentTime = 0;
+    Resources.sounds['lose'].play();
+  }
 
   void update() {
-    y++;
+    time += 0.1;
   }
 
   void draw() {
-    bufferContext.fillStyle = '#000000';
+    bufferContext.fillStyle = '#000';
     bufferContext.font = '64px "Open Sans"';
-    bufferContext.fillText("You've lost", 400, 225);
-    bufferContext.drawImage(Resources.images['cage'], x, y);
-    bufferContext.drawImage(Resources.images['labeouf'], x+233, y);
-    bufferContext.drawImage(Resources.images['trump'], x+466, y);
-    if (y > 20) {
-      y = 0;
+    bufferContext.fillText("You've lost", 250, 350, 300);
+    bufferContext.fillStyle = '#888';
+    bufferContext.font = '32px bold "Open Sans"';
+    bufferContext.fillText(message, 150, 420, 500);
+    if (name == 'cage') {
+      bufferContext.drawImage(Resources.images['cage'], 350, 50 + sin(time) * 50);
+    } else if (name == 'cage') {
+      bufferContext.drawImage(Resources.images['labeouf'], 350, 50 + sin(time) * 50);
+    } else if (name == 'cage') {
+      bufferContext.drawImage(Resources.images['trump'], 350, 50 + sin(time) * 50);
     }
+  }
+
+}
+
+class GamestateLosingMutant extends Gamestate {
+
+  GamestateLosingMutant() {
+    Resources.sounds['lose'].currentTime = 0;
+    Resources.sounds['lose'].play();
+  }
+
+  void update() { }
+
+  void draw() {
+    bufferContext.fillStyle = '#000';
+    bufferContext.font = '64px "Open Sans"';
+    bufferContext.fillText("You've lost", 250, 200, 300);
+    bufferContext.fillStyle = '#888';
+    bufferContext.font = '32px bold "Open Sans"';
+    bufferContext.fillText('The mutants have taken over.', 200, 300, 400);
+  }
+
+}
+
+class GamestateLosingAntibiotic extends Gamestate {
+
+  GamestateLosingAntibiotic() {
+    Resources.sounds['lose'].currentTime = 0;
+    Resources.sounds['lose'].play();
+  }
+
+  void update() { }
+
+  void draw() {
+    bufferContext.fillStyle = '#000';
+    bufferContext.font = '64px "Open Sans"';
+    bufferContext.fillText("You've lost", 250, 200, 300);
+    bufferContext.fillStyle = '#888';
+    bufferContext.font = '32px bold "Open Sans"';
+    bufferContext.fillText('You killed your bacteria with antibiotics.', 150, 300, 500);
   }
 
 }
 
 class GamestateWinning extends Gamestate {
 
-  void update() {
+  num time = 0;
 
+  GamestateWinning() {
+    Resources.sounds['win'].currentTime = 0;
+    Resources.sounds['win'].play();
+  }
+
+  void update() {
+    time += 0.1;
   }
 
   void draw() {
-
+    bufferContext.fillStyle = '#000';
+    bufferContext.font = '64px "Open Sans"';
+    bufferContext.fillText("You've won", 250, 60, 300);
+    bufferContext.fillStyle = '#888';
+    bufferContext.font = '32px bold "Open Sans"';
+    bufferContext.fillText('You infected them all!', 250, 110, 300);
+    bufferContext.fillStyle = '#1D9F12';
+    bufferContext.font = '25px bold "Open Sans"';
+    bufferContext.fillText('Time wasted: ' + ((currentTime - startTime) / 1000).round().toString() + ' seconds', 280, 430, 240);
+    bufferContext.drawImage(Resources.images['cage'], 150, 190 + sin(time) * 50);
+    bufferContext.drawImage(Resources.images['labeouf'], 350, 190 + sin(time + 2 / 3 * PI) * 50);
+    bufferContext.drawImage(Resources.images['trump'], 550, 190 + sin(time + 4 / 3 * PI) * 50);
   }
 
 }

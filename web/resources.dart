@@ -13,7 +13,11 @@ class Resources {
   }
 
   static void load() {
-    sounds['test'] = new AudioElement('res/test.wav')..onLoadedData.first.then((e) => soundsLoaded++);
+    sounds['song'] = new AudioElement('res/song.wav')..onLoadedData.first.then((e) => soundsLoaded++);
+    sounds['mutant'] = new AudioElement('res/mutant.wav')..onLoadedData.first.then((e) => soundsLoaded++);
+    sounds['kill'] = new AudioElement('res/kill.wav')..onLoadedData.first.then((e) => soundsLoaded++);
+    sounds['win'] = new AudioElement('res/win.wav')..onLoadedData.first.then((e) => soundsLoaded++);
+    sounds['lose'] = new AudioElement('res/lose.wav')..onLoadedData.first.then((e) => soundsLoaded++);
     images['cage'] = new ImageElement(src: 'res/cage.png')..onLoad.first.then((e) => imagesLoaded++);
     images['trump'] = new ImageElement(src: 'res/trump.png')..onLoad.first.then((e) => imagesLoaded++);
     images['labeouf'] = new ImageElement(src: 'res/labeouf.png')..onLoad.first.then((e) => imagesLoaded++);
